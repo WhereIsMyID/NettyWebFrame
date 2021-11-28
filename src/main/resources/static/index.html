@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ch">
+<head>
+    <meta charset="UTF-8">
+    <title>Text</title>
+    <script type="text/javascript" src="https://cdn.staticfile.org/jquery/3.4.1/jquery.min.js"></script>
+</head>
+<body>
+<div>
+    <img src="/img/1.png" style="width: 150px; margin-left: 75px; height: 150px;">
+    <input type="text"  style="width: 300px;" name="mes" placeholder="message...">
+    <button id="get" style="margin-left: 35px; ">GET</button>
+    <button id="post" style="margin-left: 35px; ">POST</button>
+    <div id="response">None</div>
+</div>
+</body>
+<script>
+    $(document).ready(() => {
+        $('#get').bind('click',function () {
+            let mes = $('input[name="mes"]').val();
+            $.ajax({
+                url: '/get',
+                type: 'get',
+                contentType: 'application/json',
+                data: JSON.stringify({mes}),
+                dataType: "json",
+                success: function (response)
+                {
+                    console.log("success")
+                    console.log(response)
+                    $('#response').html(response.mes)
+                },
+                error:function (e) {
+                    console.log("error")
+                    console.log(e)
+                }
+            })
+        })
+    })
+
+    $(document).ready(() => {
+        $('#post').bind('click',function () {
+            let mes = $('input[name="mes"]').val();
+            $.ajax({
+                url: '/get',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify({mes}),
+                dataType: "json",
+                success: function (response)
+                {
+                    console.log("success")
+                    console.log(response)
+                    $('#response').html(response.mes)
+                },
+                error:function (e) {
+                    console.log("error")
+                    console.log(e)
+                }
+            })
+        })
+    })
+</script>
+</html>
