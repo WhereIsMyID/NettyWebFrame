@@ -19,12 +19,12 @@ public class HttpSessionManager {
     //使用一个线程同步的哈希集合保存session集合 (sessionId,HttpSession对象)
     private static final Map<String, HttpSession> SESSION_MAP = new ConcurrentHashMap<>();
 
-    //生成一个session,返回sessionId
-    public static String createSession() {
+    //生成一个session,返回session
+    public static HttpSession createSession() {
         HttpSession session = new DefaultHttpSession();//获取一个SessionId
         String sessionId = session.getId();//HttpSession实现接口
         SESSION_MAP.put(sessionId,session);//保存当前session
-        return sessionId;
+        return session;
     }
 
     //判断一个session是否存在
@@ -55,15 +55,12 @@ public class HttpSessionManager {
     }
 
     //为客户端保存带有sessionId的cookie
-    public static void setSessionId(boolean exists, HttpResponse response) {
-        if(exists == false)//如果用户发送来的头信息里面不包含有SessionId内容
-        {
-            //为其创建一个session
-            String sessionId = HttpSessionManager.createSession();
-            String encodeCookie = ServerCookieEncoder.STRICT.encode(HttpSession.SESSIONID,sessionId);//为前端cookie设置sessionId
-            response.headers().set(HttpHeaderNames.SET_COOKIE,encodeCookie);//客户端保存Cookie数据
-            log.info("创建session:"+sessionId);
-        }
+    public static HttpSession setSessionId(HttpResponse response) {
+        HttpSession session = HttpSessionManager.createSession();
+        String encodeCookie = ServerCookieEncoder.STRICT.encode(HttpSession.SESSIONID,session.getId());//为前端cookie设置sessionId
+        response.headers().set(HttpHeaderNames.SET_COOKIE,encodeCookie);//客户端保存Cookie数据
+        log.info("创建session:"+session.getId());
+        return session;
     }
 
     //判断当前请求是否含有session
