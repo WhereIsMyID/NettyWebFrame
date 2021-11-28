@@ -6,12 +6,14 @@ import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.cookie.Cookie;
 import io.netty.handler.codec.http.cookie.ServerCookieDecoder;
 import io.netty.handler.codec.http.cookie.ServerCookieEncoder;
+import lombok.extern.slf4j.Slf4j;
 
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
+@Slf4j
 //Session管理类
 public class HttpSessionManager {
     //使用一个线程同步的哈希集合保存session集合 (sessionId,HttpSession对象)
@@ -57,9 +59,10 @@ public class HttpSessionManager {
         if(exists == false)//如果用户发送来的头信息里面不包含有SessionId内容
         {
             //为其创建一个session
-            String encodeCookie = ServerCookieEncoder.STRICT.encode(HttpSession.SESSIONID, HttpSessionManager.createSession()) ;
-            response.headers().set(HttpHeaderNames.SET_COOKIE,encodeCookie) ;//客户端保存Cookie数据
-            System.out.println("创建session");
+            String sessionId = HttpSessionManager.createSession();
+            String encodeCookie = ServerCookieEncoder.STRICT.encode(HttpSession.SESSIONID,sessionId);//为前端cookie设置sessionId
+            response.headers().set(HttpHeaderNames.SET_COOKIE,encodeCookie);//客户端保存Cookie数据
+            log.info("创建session:"+sessionId);
         }
     }
 
@@ -68,11 +71,10 @@ public class HttpSessionManager {
         String cookieStr = request.headers().get(HttpHeaderNames.COOKIE);//获取客户端头信息发送来的Cookie数据
         if (cookieStr == null || "".equals(cookieStr))//如果为空，返回false
         {
-            System.out.println("没有cookie");
+            log.info("客户端没有cookie");
             return null;
         }
 
-        System.out.println("发现cookie");
         Set<Cookie> cookieSet = ServerCookieDecoder.STRICT.decode(cookieStr);//得到cookie集合
         Iterator<Cookie> iter = cookieSet.iterator();//获取其集合的迭代器
         while(iter.hasNext())//遍历cookie集合
@@ -82,7 +84,7 @@ public class HttpSessionManager {
             {
                 if (HttpSessionManager.isExists(cookie.value()))//如果session管理器中含有当前的sessionId
                 {
-                    System.out.println("发现session" + cookie.value());
+                    log.info("客户端cookie发现session: " + cookie.value());
                     return HttpSessionManager.getSession(cookie.value());//得到当前连接的session
                 }
             }
