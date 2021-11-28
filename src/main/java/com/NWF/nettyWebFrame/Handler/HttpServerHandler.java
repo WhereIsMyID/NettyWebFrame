@@ -20,6 +20,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
         if(msg instanceof FullHttpRequest)//如果当前是Http请求
         {
             this.request = (FullHttpRequest) msg;
+            System.out.println("\n");
             log.info(ctx.channel() + "\n========================================================================收到http请求========================================================================\n"
                     + msg +
                     "\n============================================================================================================================================================");
@@ -46,7 +47,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
                 firstResponse.headers().set(HttpHeaderNames.CONNECTION,"keep-alive");//往报文头部中添加保持心跳选项
             }
 
-            log.info("发送数据。\n");
+            log.info("发送数据。");
             //遍历所有应答报文,写入ctx中
             for (Object r : responses.getResponses())
             {
