@@ -2,17 +2,15 @@ package com.NWF.nettyWebFrame.tools.RequestAction;
 
 import com.NWF.nettyWebFrame.Handler.ResponsePackage;
 import io.netty.channel.ChannelHandlerContext;
-import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.List;
 
 @Slf4j
 //业务处理对象父类
 public abstract class RequestAction {
 
     private String url;//业务的url
-    public ResponsePackage response;//封装的应答报文包
+    private ResponsePackage response;//封装的应答报文包
 
     //绑定路径
     public final RequestAction bind(String url)
@@ -23,14 +21,13 @@ public abstract class RequestAction {
     }
 
     //自定义对接收的参数的操作
-    abstract public ResponsePackage action(FullHttpRequest msg, ChannelHandlerContext ctx);
+    abstract public ResponsePackage action(Object msg, ChannelHandlerContext ctx);
 
     //返回处理结果
-    public final ResponsePackage result(FullHttpRequest msg, ChannelHandlerContext ctx)
+    public final ResponsePackage result(Object msg, ChannelHandlerContext ctx)
     {
         response = action(msg,ctx);
         return response;
     }
-
 
 }

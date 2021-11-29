@@ -1,4 +1,4 @@
-package com.NWF.nettyWebFrame.tools;
+package com.NWF.nettyWebFrame.tools.Serializer;
 
 import com.alibaba.fastjson.JSON;
 

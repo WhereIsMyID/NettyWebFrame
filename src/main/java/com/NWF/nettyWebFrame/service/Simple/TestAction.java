@@ -4,7 +4,7 @@ import com.NWF.nettyWebFrame.Handler.HttpRequest.RequestHandler;
 import com.NWF.nettyWebFrame.Handler.HttpRequest.RequestHandlerFactory;
 import com.NWF.nettyWebFrame.Handler.ResponsePackage;
 import com.NWF.nettyWebFrame.basic.Item;
-import com.NWF.nettyWebFrame.tools.JSONSerializer;
+import com.NWF.nettyWebFrame.tools.Serializer.JSONSerializer;
 import com.NWF.nettyWebFrame.tools.RequestAction.RequestAction;
 import com.NWF.nettyWebFrame.tools.ResponseTools;
 import com.alibaba.fastjson.JSONException;
@@ -19,10 +19,11 @@ public class TestAction extends RequestAction {
     private JSONSerializer jsonSerializer = new JSONSerializer();//json序列化工具
 
     @Override
-    public ResponsePackage action(FullHttpRequest msg, ChannelHandlerContext ctx) {
-        RequestHandler requestHandler = RequestHandlerFactory.create(msg.method());//根据当前http请求获取其对应的处理方法(GET/POST)
+    public ResponsePackage action(Object msg, ChannelHandlerContext ctx) {
+        FullHttpRequest request = (FullHttpRequest)msg;
+        RequestHandler requestHandler = RequestHandlerFactory.create(request.method());//根据当前http请求获取其对应的处理方法(GET/POST)
         Object result;//返回的对象
-        result = requestHandler.handle(msg);//获取请求的参数内容
+        result = requestHandler.handle(request);//获取请求的参数内容
         log.info("收到的参数为："+ result);
         byte[] responseBytes;
         //回应的内容
@@ -36,7 +37,7 @@ public class TestAction extends RequestAction {
             responseBytes = result.toString().getBytes(CharsetUtil.UTF_8);
         }
         //构建json报文
-        return ResponseTools.Response(responseBytes, msg,"application/json");
+        return ResponseTools.Response(responseBytes, request,"application/json",ResponsePackage.KEEP_ALIVE);
     }
 
 }

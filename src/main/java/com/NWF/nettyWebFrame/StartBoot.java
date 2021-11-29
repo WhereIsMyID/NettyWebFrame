@@ -16,11 +16,27 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 public class StartBoot {
     public static int port = 8080;
+    public static boolean websocket = false;//websocket开关
+    public static String wsURL = "NWF";//websocket连接的默认路径
 
     //设置静态资源路径
     public StartBoot setStaticPath(String path)
     {
         ResourcesTools.location = path;
+        return this;
+    }
+
+    //设置是否开启websocket机制
+    public StartBoot webSocket(boolean b)
+    {
+        websocket = b;
+        return this;
+    }
+
+    //设置websocket的url
+    public StartBoot wsURL(String url)
+    {
+        wsURL = url;
         return this;
     }
 

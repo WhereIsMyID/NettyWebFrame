@@ -6,7 +6,6 @@ import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.*;
-import io.netty.util.CharsetUtil;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class ResponseTools {
 
 
     //构造http基本应答报文
-    public static ResponsePackage Response(byte[] bytes, HttpRequest msg, String contextType)
+    public static ResponsePackage Response(byte[] bytes, HttpRequest msg, String contextType,int tag)
     {
         List<Object> responses = new ArrayList<>();//应答报文列表
 
@@ -40,7 +39,7 @@ public class ResponseTools {
 
         responses.add(response);
 
-        ResponsePackage responsePackage = new ResponsePackage(responses);//创建一个报文应答包
+        ResponsePackage responsePackage = new ResponsePackage(tag,responses);//创建一个报文应答包
         return responsePackage;
     }
 

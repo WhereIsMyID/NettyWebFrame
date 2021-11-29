@@ -4,8 +4,9 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-//实现HttpSession接口
+//实现HttpSession接口,表示一个session对象
 public class DefaultHttpSession implements HttpSession {
+    public static String SESSIONID = "NettyWebFrameSessionId";//客户端发送cookie的名称
     private String sessionId;
     //存放session内容的哈希表
     private Map<String,Object> attributes =  new HashMap<>();

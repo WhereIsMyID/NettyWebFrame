@@ -1,4 +1,4 @@
-package com.NWF.nettyWebFrame.tools;
+package com.NWF.nettyWebFrame.tools.Serializer;
 
 //序列化接口
 public interface Serializer {

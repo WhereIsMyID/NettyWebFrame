@@ -9,9 +9,10 @@ import io.netty.handler.codec.http.FullHttpRequest;
 //静态资源获取
 public class GetStaticFile extends RequestAction {
     @Override
-    public ResponsePackage action(FullHttpRequest msg, ChannelHandlerContext ctx) {
+    public ResponsePackage action(Object msg, ChannelHandlerContext ctx) {
+        FullHttpRequest request = (FullHttpRequest)msg;
         String uri = "/index.html";
-        if(!msg.uri().equals("/")) uri = msg.uri();//如果是"/"则返回index.html
-        return ResponseTools.handleResource(msg,uri);
+        if(!request.uri().equals("/")) uri = request.uri();//如果是"/"则返回index.html
+        return ResponseTools.handleResource(request,uri);
     }
 }

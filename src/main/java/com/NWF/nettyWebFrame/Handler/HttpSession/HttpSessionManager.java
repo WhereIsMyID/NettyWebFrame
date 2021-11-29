@@ -44,6 +44,13 @@ public class HttpSessionManager {
         }
     }
 
+    //设置session的cookie标签
+    public static void setTag(String tag)
+    {
+        DefaultHttpSession.SESSIONID = tag;
+    }
+
+
     //删除一个session
     public static void invalidate(String sessionId) {
         SESSION_MAP.remove(sessionId) ;
@@ -57,7 +64,7 @@ public class HttpSessionManager {
     //为客户端保存带有sessionId的cookie
     public static HttpSession setSessionId(HttpResponse response) {
         HttpSession session = HttpSessionManager.createSession();
-        String encodeCookie = ServerCookieEncoder.STRICT.encode(HttpSession.SESSIONID,session.getId());//为前端cookie设置sessionId
+        String encodeCookie = ServerCookieEncoder.STRICT.encode(DefaultHttpSession.SESSIONID,session.getId());//为前端cookie设置sessionId
         response.headers().set(HttpHeaderNames.SET_COOKIE,encodeCookie);//客户端保存Cookie数据
         log.info("创建session:"+session.getId());
         return session;
@@ -77,7 +84,7 @@ public class HttpSessionManager {
         while(iter.hasNext())//遍历cookie集合
         {
             Cookie cookie = iter.next() ;
-            if(HttpSession.SESSIONID.equals(cookie.name()))//如果当前cookie的名称是HttpSession的标识
+            if(DefaultHttpSession.SESSIONID.equals(cookie.name()))//如果当前cookie的名称是HttpSession的标识
             {
                 if (HttpSessionManager.isExists(cookie.value()))//如果session管理器中含有当前的sessionId
                 {

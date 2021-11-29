@@ -3,11 +3,10 @@ package com.NWF.nettyWebFrame.tools.RequestAction;
 import com.NWF.nettyWebFrame.tools.ResourcesTools;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.HttpResponse;
+import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 //请求处理工厂

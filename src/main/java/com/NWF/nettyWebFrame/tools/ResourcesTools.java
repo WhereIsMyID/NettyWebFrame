@@ -1,9 +1,6 @@
 package com.NWF.nettyWebFrame.tools;
 
 import com.NWF.nettyWebFrame.Handler.ResponsePackage;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelFutureListener;
-import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.DefaultFileRegion;
 import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
