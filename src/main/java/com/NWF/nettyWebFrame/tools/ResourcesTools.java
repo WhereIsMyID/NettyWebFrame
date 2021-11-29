@@ -83,6 +83,8 @@ public class ResourcesTools {
         {
             contentType = "text/plain;charset=ytf-8";
         }
+        if(file.getName().endsWith(".css")) contentType = "text/css";
+        else if(file.getName().endsWith(".js")) contentType = "application/javascript";
         headers.set(HttpHeaderNames.CONTENT_TYPE,contentType);
         return headers;
     }
