@@ -1,6 +1,7 @@
 package com.NWF.nettyWebFrame.tools;
 
 import com.NWF.nettyWebFrame.Handler.ResponsePackage;
+import io.netty.buffer.ByteBuf;
 import io.netty.channel.DefaultFileRegion;
 import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
@@ -66,7 +67,9 @@ public class ResourcesTools {
         HttpHeaders headers = getContentTypeHeader(file);//获取文件的类型
         HttpResponse response = new DefaultHttpResponse(msg.protocolVersion(),status,headers);//根据报文头部
         responses.add(response);
-        responses.add(new DefaultFileRegion(raf.getChannel(),0,raf.length()));//写入文件
+        DefaultFileRegion defaultFileRegion = new DefaultFileRegion(raf.getChannel(), 0, raf.length());
+        defaultFileRegion.retain();
+        responses.add(defaultFileRegion);//写入文件
         responses.add(LastHttpContent.EMPTY_LAST_CONTENT);
 
         ResponsePackage responsePackage = new ResponsePackage(ResponsePackage.STATIC_FILE,responses);//创建一个报文应答包

@@ -67,7 +67,7 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
                 channelFuture = ctx.write(r);//获取channelFuture
             }
 
-            if(!keepAlive || responses.getTag()!=ResponsePackage.KEEP_ALIVE)//如果没有心跳或者没有开启心跳机制
+            if(!keepAlive|| responses.getTag()!=ResponsePackage.KEEP_ALIVE)//如果没有心跳或者没有开启心跳机制
             {
                 log.info(ctx.channel() + " 心跳关闭");
                 channelFuture.addListener(ChannelFutureListener.CLOSE);//关闭连接

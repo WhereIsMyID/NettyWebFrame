@@ -17,7 +17,7 @@ import java.util.concurrent.ConcurrentHashMap;
 //Session管理类
 public class HttpSessionManager {
     //使用一个线程同步的哈希集合保存session集合 (sessionId,HttpSession对象)
-    private static final Map<String, HttpSession> SESSION_MAP = new ConcurrentHashMap<>();
+    public static final Map<String, HttpSession> SESSION_MAP = new ConcurrentHashMap<>();
 
     //生成一个session,返回session
     public static HttpSession createSession() {
