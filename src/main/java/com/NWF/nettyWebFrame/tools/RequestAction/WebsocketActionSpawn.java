@@ -23,6 +23,11 @@ public class WebsocketActionSpawn {
         WebsocketActionSpawn.requestAction = requestAction;
     }
 
+    //不指定url使用默认路径
+    public static final void bind(Class<?> requestAction) {
+        WebsocketActionSpawn.requestAction = requestAction;
+    }
+
     //返回处理结果
     public final ResponsePackage result(Object msg, ChannelHandlerContext ctx) throws IllegalAccessException, InstantiationException {
         Object obj = requestAction.newInstance();//反射出实例
