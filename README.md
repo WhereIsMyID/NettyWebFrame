@@ -25,4 +25,9 @@ V3.0 2021/11/29
 新增了一个测试文件TestWebsocketAction.java，用于展示websocket的效果。  
 新增资源文件hello.html，简易的长链接前后端聊天室。  
 
+V4.0 2021/12/9
+针对于非阻塞式业务链处理，为了解决耗时任务对网络的影响，为业务提供了一个异步执行的功能，为RequestAction增添了属性isSync来表示是否同步，并将HttpServerHandler具体操作做进一步分离。  
+在使用bind绑定RequestAction业务对象的时候,可以追加参数isSync(true/false)来开启或关闭同步处理，默认为开启同步。选择异步将会使用额外的线程池去处理业务。  
+修改了websocket路径的绑定形式，将在为WebsocketActionSpawn绑定业务对象的时候，可以在bind方法处额外添加参数url来修改websocket的路径。  
+
 api有空再写...  
