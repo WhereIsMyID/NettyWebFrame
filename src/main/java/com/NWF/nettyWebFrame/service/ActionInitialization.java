@@ -10,8 +10,7 @@ public class ActionInitialization {
     public final static void action(){
         new TestAction().bind("/get");
         new GetStaticFile().bind("/");//设置静态资源根目录
-
-        WebsocketActionSpawn.bind(TestWebsocketAction.class);//绑定自定义的websocket处理类
+        WebsocketActionSpawn.bind(TestWebsocketAction.class,"/hello");//绑定自定义的websocket处理类
     }
 
 }

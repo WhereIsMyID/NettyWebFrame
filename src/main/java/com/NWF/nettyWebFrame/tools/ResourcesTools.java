@@ -59,7 +59,7 @@ public class ResourcesTools {
         }
     }
 
-    //上传文件
+    //构建报文
     private static ResponsePackage handleFile(FullHttpRequest msg,File file,HttpResponseStatus status) throws IOException{
         List<Object> responses = new ArrayList<>();//应答报文列表
 

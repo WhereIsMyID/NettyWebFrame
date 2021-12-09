@@ -1,11 +1,12 @@
 package com.NWF.nettyWebFrame.tools.RequestAction;
 
-import com.NWF.nettyWebFrame.tools.ResourcesTools;
+import com.NWF.nettyWebFrame.Handler.FlushResponse;
+import com.NWF.nettyWebFrame.Handler.ResponsePackage;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.handler.codec.http.FullHttpRequest;
-import io.netty.handler.codec.http.websocketx.WebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -25,8 +26,7 @@ public class RequestActionFactory {
     }
 
     //根据uri获取其处理结果
-    public static Object get(String uri, FullHttpRequest msg, ChannelHandlerContext ctx)
-    {
+    public static void get(String uri, FullHttpRequest msg, ChannelHandlerContext ctx) throws IOException {
         log.info("收到请求："+uri);
         if(uri.indexOf("?") != -1)//如果是带有"?"的GET请求
         {
@@ -36,18 +36,28 @@ public class RequestActionFactory {
         {
             if(!maps.containsKey(uri))//如果该uri不是记录在maps中绑定的话
             {
-                if(ResourcesTools.isStaticFile(uri))//如果请求的是一个静态的地址
-                {
-                    uri = "/";//访问根目录
-                }
+                //如果请求的是一个静态的地址，此处产生io需异步执行处理
+                AsyncAction.doAsync(msg,ctx,uri,maps.get("/"));
+                return;
             }
         }
+
         log.info("解析到路径："+uri);
-        try {
-            return maps.get(uri).result(msg,ctx);
+        RequestAction action;
+        ResponsePackage response;
+        try{
+            action = maps.get(uri);
+            if(!action.isSync())//判断该业务是否需要异步执行
+            {
+                AsyncAction.doAsync(msg,ctx,action);//异步执行
+                return;
+            }
+            response = action.result(msg, ctx);
         }catch (Exception e)
         {
-            return e;
+            response = null;
         }
+        FlushResponse.set(response,msg,ctx);//同步执行
+
     }
 }

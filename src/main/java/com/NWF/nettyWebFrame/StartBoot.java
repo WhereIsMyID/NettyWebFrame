@@ -1,7 +1,6 @@
 package com.NWF.nettyWebFrame;
 
 import com.NWF.nettyWebFrame.Handler.HttpServerInitializer;
-import com.NWF.nettyWebFrame.service.ActionInitialization;
 import com.NWF.nettyWebFrame.tools.ResourcesTools;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -15,9 +14,9 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 public class StartBoot {
-    public static int port = 8080;
+    private static int port = 8080;//端口
+    public static boolean logInfo = true;//是否开启报文日志
     public static boolean websocket = false;//websocket开关
-    public static String wsURL = "NWF";//websocket连接的默认路径
 
     //设置静态资源路径
     public StartBoot setStaticPath(String path)
@@ -33,30 +32,25 @@ public class StartBoot {
         return this;
     }
 
-    //设置websocket的url
-    public StartBoot wsURL(String url)
-    {
-        wsURL = url;
-        return this;
-    }
-
     public void run(int p)
     {
         StartBoot.port = p;
 
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);//将boss线程设为1条
-        EventLoopGroup workerGroup = new NioEventLoopGroup();//工作线程
+        EventLoopGroup workerGroup = new NioEventLoopGroup();//工作线程池
 
         try{
             ServerBootstrap serverbootstrap = new ServerBootstrap();
 
-            serverbootstrap.group(bossGroup,workerGroup)
-                    .channel(NioServerSocketChannel.class)
+            serverbootstrap.group(bossGroup,workerGroup)//设置boss线程和worker线程池
+                    .channel(NioServerSocketChannel.class)//指定channel类型(基于TCP的客户端连接)
                     .childOption(ChannelOption.SO_KEEPALIVE,true)//开启TCP心跳检测
-                    .handler(new LoggingHandler(LogLevel.INFO))
                     .childHandler(new HttpServerInitializer());//绑定定义好的Initializer
 
-            ChannelFuture channelFuture = serverbootstrap.bind(port).sync();
+            //判断是否开启报文日志
+            if(logInfo) serverbootstrap.handler(new LoggingHandler(LogLevel.INFO));
+
+            ChannelFuture channelFuture = serverbootstrap.bind(port).sync();//绑定端口
             log.info("服务器已开启...");
             //同步处理通道关闭监听线程
             channelFuture.channel().closeFuture().sync();

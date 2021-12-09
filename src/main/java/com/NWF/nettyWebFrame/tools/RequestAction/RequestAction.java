@@ -8,15 +8,30 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 //业务处理对象父类
 public abstract class RequestAction {
-
+    private boolean isSync = true;//设定是否同步执行
     private String url;//业务的url
     private ResponsePackage response;//封装的应答报文包
+
+    //查看是否同步
+    public boolean isSync()
+    {
+        return isSync;
+    }
 
     //绑定路径
     public final RequestAction bind(String url)
     {
         this.url= url;
         RequestActionFactory.add(url,this);//在业务处理工厂中添加当前对象和url的绑定关系
+        return this;
+    }
+
+    //绑定路径，并设定是否同步
+    public final RequestAction bind(String url,boolean isSync)
+    {
+        this.isSync = isSync;
+        this.url= url;
+        RequestActionFactory.add(url,this);
         return this;
     }
 

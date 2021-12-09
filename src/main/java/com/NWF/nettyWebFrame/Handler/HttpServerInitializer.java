@@ -1,6 +1,5 @@
 package com.NWF.nettyWebFrame.Handler;
 
-import com.NWF.nettyWebFrame.StartBoot;
 import io.netty.channel.ChannelInitializer;
 import io.netty.channel.ChannelPipeline;
 import io.netty.channel.socket.SocketChannel;
