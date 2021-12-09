@@ -36,6 +36,7 @@ public class StartBoot {
     public StartBoot openLog(boolean b)
     {
         logInfo = b;
+        return this;
     }
 
     public void run(int p)
