@@ -32,6 +32,12 @@ public class StartBoot {
         return this;
     }
 
+    //设置是否打开日志输出
+    public StartBoot openLog(boolean b)
+    {
+        logInfo = b;
+    }
+
     public void run(int p)
     {
         StartBoot.port = p;
