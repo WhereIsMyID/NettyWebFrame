@@ -11,9 +11,6 @@ import io.netty.handler.codec.http.websocketx.WebSocketServerHandshaker;
 import io.netty.handler.codec.http.websocketx.WebSocketServerHandshakerFactory;
 import lombok.extern.slf4j.Slf4j;
 
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.ThreadFactory;
-
 
 @Slf4j
 public class HttpServerHandler extends ChannelInboundHandlerAdapter {

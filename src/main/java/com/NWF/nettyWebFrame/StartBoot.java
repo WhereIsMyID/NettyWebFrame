@@ -1,6 +1,7 @@
 package com.NWF.nettyWebFrame;
 
 import com.NWF.nettyWebFrame.Handler.HttpServerInitializer;
+import com.NWF.nettyWebFrame.tools.RequestAction.GetStaticFile;
 import com.NWF.nettyWebFrame.tools.ResourcesTools;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
@@ -42,6 +43,7 @@ public class StartBoot {
     public void run(int p)
     {
         StartBoot.port = p;
+        new GetStaticFile().bind("/");//设置静态资源根目录
 
         EventLoopGroup bossGroup = new NioEventLoopGroup(1);//将boss线程设为1条
         EventLoopGroup workerGroup = new NioEventLoopGroup();//工作线程池
