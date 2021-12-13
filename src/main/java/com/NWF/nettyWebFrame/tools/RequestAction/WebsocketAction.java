@@ -16,28 +16,27 @@ public class WebsocketAction extends RequestAction {
     }
 
     //关闭链路
-    protected void isCloseWebSocketFrame(CloseWebSocketFrame frame,ChannelHandlerContext ctx)
+    protected ResponsePackage isCloseWebSocketFrame(CloseWebSocketFrame frame,ChannelHandlerContext ctx)
     {
         if(handShaker != null)
         handShaker.close(ctx.channel(),frame.retain());//关闭链路
+        return null;
     }
 
     //Ping消息
-    protected void isPingWebSocketFrame(PingWebSocketFrame frame,ChannelHandlerContext ctx)
+    protected ResponsePackage isPingWebSocketFrame(PingWebSocketFrame frame,ChannelHandlerContext ctx)
     {
         ctx.channel().write(new PongWebSocketFrame(frame.content().retain()));//回复一个应答报文
+        return null;
     }
 
     //二进制消息
-    protected void isBinaryWebSocketFrame(BinaryWebSocketFrame frame,ChannelHandlerContext ctx)
-    {
-        return;
-    }
+    protected ResponsePackage isBinaryWebSocketFrame(BinaryWebSocketFrame frame,ChannelHandlerContext ctx) { return null; }
 
     //文本消息
-    protected void isTextWebSocketFrame(TextWebSocketFrame frame,ChannelHandlerContext ctx)
+    protected ResponsePackage isTextWebSocketFrame(TextWebSocketFrame frame,ChannelHandlerContext ctx)
     {
-        return;
+        return null;
     }
 
 
@@ -47,19 +46,19 @@ public class WebsocketAction extends RequestAction {
 
         //判断是否是关闭链路
         if (frame instanceof CloseWebSocketFrame) {
-            isCloseWebSocketFrame((CloseWebSocketFrame) frame,ctx);
+            response = isCloseWebSocketFrame((CloseWebSocketFrame) frame,ctx);
         }
         //判断是否是ping消息
         else if (frame instanceof PingWebSocketFrame) {
-            isPingWebSocketFrame((PingWebSocketFrame) frame,ctx);
+            response = isPingWebSocketFrame((PingWebSocketFrame) frame,ctx);
         }
         //判断是否是二进制消息
         else if (frame instanceof BinaryWebSocketFrame) {
-            isBinaryWebSocketFrame((BinaryWebSocketFrame) frame,ctx);
+            response = isBinaryWebSocketFrame((BinaryWebSocketFrame) frame,ctx);
         }
         //判断是否是文本消息
         else if(frame instanceof TextWebSocketFrame){
-            isTextWebSocketFrame((TextWebSocketFrame)frame,ctx);
+            response = isTextWebSocketFrame((TextWebSocketFrame)frame,ctx);
         }
 
         return response;

@@ -1,5 +1,6 @@
 package com.NWF.nettyWebFrame.Handler;
 
+import com.NWF.nettyWebFrame.tools.ResourcesTools;
 import com.NWF.nettyWebFrame.tools.ResponseTools;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -15,11 +16,10 @@ import java.io.IOException;
 //将ResponsePackage报文包拆分输出
 @Slf4j
 public class FlushResponse {
-    public static void set(ResponsePackage responses, FullHttpRequest request,ChannelHandlerContext ctx) throws IOException {
+    public static void set(ResponsePackage responses, FullHttpRequest request,ChannelHandlerContext ctx){
         if(responses == null)
         {
             log.info("报文处理时发生错误!\n");
-            ResponseTools.notFound(ctx,request);//返回一个404页面
             return;
         }
 

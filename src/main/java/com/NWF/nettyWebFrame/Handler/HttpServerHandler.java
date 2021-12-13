@@ -3,7 +3,6 @@ package com.NWF.nettyWebFrame.Handler;
 import com.NWF.nettyWebFrame.StartBoot;
 import com.NWF.nettyWebFrame.tools.RequestAction.RequestActionFactory;
 import com.NWF.nettyWebFrame.tools.RequestAction.WebsocketActionSpawn;
-import com.NWF.nettyWebFrame.tools.ResponseTools;
 import io.netty.channel.*;
 import io.netty.handler.codec.http.*;
 import io.netty.handler.codec.http.websocketx.WebSocketFrame;
@@ -43,7 +42,6 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
                         return;
                     }
                 }else RequestActionFactory.get(uri,request,ctx);//通过应答报文工厂获取uri对应的执行方法的结果
-
         }
         else if(msg instanceof WebSocketFrame)//如果当前是websocket帧
         {
@@ -56,7 +54,6 @@ public class HttpServerHandler extends ChannelInboundHandlerAdapter {
             log.info("websocket连接发送数据。\n");
             ctx.writeAndFlush(responses.getResponses().get(0));//写入并刷出消息
         }
-
     }
 
     //异常处理

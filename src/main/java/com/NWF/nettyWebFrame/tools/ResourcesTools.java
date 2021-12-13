@@ -1,7 +1,6 @@
 package com.NWF.nettyWebFrame.tools;
 
 import com.NWF.nettyWebFrame.Handler.ResponsePackage;
-import io.netty.buffer.ByteBuf;
 import io.netty.channel.DefaultFileRegion;
 import io.netty.handler.codec.http.*;
 import lombok.extern.slf4j.Slf4j;
@@ -16,23 +15,13 @@ import java.util.List;
 public class ResourcesTools {
     //静态文件根目录路径
     public static String location = ResourcesTools.class.getClass().getResource("/static").getPath();
+    //展示的首页路径
+    public static String INDEX = "/index.html";
     //错误页面路径
     public static String NOT_FOUND = "/404.html";
 
     //私有化构造方法
     private ResourcesTools(){}
-
-    //判断一个路径是否是静态文件
-    public static boolean isStaticFile(String s)
-    {
-        String path = location + s;
-        File file = new File(path);
-        if(!file.exists() )//如果文件不存在
-        {
-            return false;
-        }
-        return true;
-    }
 
     //返回一个404页面
     public static ResponsePackage notFound(FullHttpRequest msg,String url) throws IOException {
@@ -50,7 +39,7 @@ public class ResourcesTools {
             File file = new File(path);
             if(!file.exists() || file.isDirectory())//如果文件不存在或者是个目录
             {
-                notFound(msg,NOT_FOUND);//返回一个404页面
+                return notFound(msg,NOT_FOUND);//返回一个404页面
             }
             return handleFile(msg,file,HttpResponseStatus.OK);
         }catch (IOException e)

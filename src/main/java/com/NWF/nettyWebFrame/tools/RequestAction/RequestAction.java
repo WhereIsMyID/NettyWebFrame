@@ -22,7 +22,7 @@ public abstract class RequestAction {
     public final RequestAction bind(String url)
     {
         this.url= url;
-        RequestActionFactory.add(url,this);//在业务处理工厂中添加当前对象和url的绑定关系
+        RequestActionFactory.add(this.url,this);//在业务处理工厂中添加当前对象和url的绑定关系
         return this;
     }
 
@@ -31,7 +31,7 @@ public abstract class RequestAction {
     {
         this.isSync = isSync;
         this.url= url;
-        RequestActionFactory.add(url,this);
+        RequestActionFactory.add(this.url,this);
         return this;
     }
 

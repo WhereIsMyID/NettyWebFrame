@@ -20,7 +20,7 @@ public class TestAction extends RequestAction {
 
     @Override
     public ResponsePackage action(Object msg, ChannelHandlerContext ctx) {
-        FullHttpRequest request = (FullHttpRequest)msg;
+        FullHttpRequest request = (FullHttpRequest)msg;//将报文转换为完整HTTP报文对象
         RequestHandler requestHandler = RequestHandlerFactory.create(request.method());//根据当前http请求获取其对应的处理方法(GET/POST)
         Object result;//返回的对象
         result = requestHandler.handle(request);//获取请求的参数内容

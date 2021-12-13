@@ -26,7 +26,7 @@ public class RequestActionFactory {
     }
 
     //根据uri获取其处理结果
-    public static void get(String uri, FullHttpRequest msg, ChannelHandlerContext ctx) throws IOException {
+    public static void get(String uri, FullHttpRequest msg, ChannelHandlerContext ctx) throws IOException, InterruptedException {
         log.info("收到请求："+uri);
         if(uri.indexOf("?") != -1)//如果是带有"?"的GET请求
         {
@@ -34,10 +34,10 @@ public class RequestActionFactory {
         }
         else//否则，是一个post请求或者一个静态资源请求
         {
-            if(!maps.containsKey(uri))//如果该uri不是记录在maps中绑定的话
+            if(!maps.containsKey(uri) || uri.equals("/"))//如果该uri不是记录在maps中绑定的话
             {
                 //如果请求的是一个静态的地址，此处产生io需异步执行处理
-                AsyncAction.doAsync(msg,ctx,uri,maps.get("/"));
+                AsyncAction.doAsync(msg,ctx,maps.get("/"));
                 return;
             }
         }
@@ -58,6 +58,5 @@ public class RequestActionFactory {
             response = null;
         }
         FlushResponse.set(response,msg,ctx);//同步执行
-
     }
 }

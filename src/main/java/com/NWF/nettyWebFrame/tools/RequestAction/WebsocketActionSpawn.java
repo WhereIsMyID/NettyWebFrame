@@ -8,7 +8,7 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 //用于处理websocket帧的事务
 public class WebsocketActionSpawn {
-    public static String wsURL = "NWF";//websocket连接的默认路径
+    public static String wsURL = "/NWF";//websocket连接的默认路径
     private WebSocketServerHandshaker handShaker;
     public WebsocketActionSpawn(WebSocketServerHandshaker handShaker){
         this.handShaker = handShaker;

@@ -16,11 +16,11 @@ public class TestWebsocketAction extends WebsocketAction {
 
     //重写文本处理器
     @Override
-    protected void isTextWebSocketFrame(TextWebSocketFrame frame, ChannelHandlerContext ctx) {
+    protected ResponsePackage isTextWebSocketFrame(TextWebSocketFrame frame, ChannelHandlerContext ctx) {
         log.info("服务器收到消息："+frame.text());
         //回复消息
-        List<Object> result = new ArrayList<>();
-        result.add(new TextWebSocketFrame("服务器" + LocalDateTime.now() + "： " + frame.text()));
-        response = new ResponsePackage(result);//构建应答报文
+        List<Object> result = new ArrayList<>();//创建一个Object列表存放应答报文内容
+        result.add(new TextWebSocketFrame("服务器" + LocalDateTime.now() + "： " + frame.text()));//为其添加一个websocket帧信息
+        return new ResponsePackage(result);//将列表创建为应答报文包，构建应答报文
     }
 }
