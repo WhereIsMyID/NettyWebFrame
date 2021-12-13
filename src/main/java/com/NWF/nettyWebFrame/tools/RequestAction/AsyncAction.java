@@ -12,7 +12,7 @@ import java.util.concurrent.Callable;
 
 //处理异步线程
 public class AsyncAction {
-    public static int executors = 16;//异步线程池线程数
+    public static int executors = Runtime.getRuntime().availableProcessors();//异步线程池线程数(默认与cpu核数相同)
     static final EventExecutorGroup group = new DefaultEventExecutorGroup(executors);//异步线程池
 
     //业务请求
