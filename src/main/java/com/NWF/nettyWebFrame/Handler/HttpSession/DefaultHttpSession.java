@@ -4,13 +4,18 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
-//实现HttpSession接口,表示一个session对象
+/**
+ * description:实现HttpSession接口,表示一个session对象
+ */
 public class DefaultHttpSession implements HttpSession {
     public static String SESSIONID = "NettyWebFrameSessionId";//客户端发送cookie的名称
-    private String sessionId;
+    private String sessionId;//session的随机码
     //存放session内容的哈希表
     private Map<String,Object> attributes =  new HashMap<>();
 
+    /**
+     * description:初始化构造函数，每次创建对象，为该对象生成一个随机的sessionId
+     */
     public DefaultHttpSession(){
         this.sessionId = UUID.randomUUID().toString();//随机生成一个sessionId
     }

@@ -9,8 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-//处理GET请求
+/**
+ * description:处理Get请求
+ */
 public class GetRequest implements RequestHandler {
+
+    /**
+     * description:获取GET请求报文中的参数内容
+     *
+     * @Param:http请求报文
+     * @return:报文内容
+     */
     public Object handle(FullHttpRequest fullHttpRequest) {
         String uri = fullHttpRequest.uri();
         try {
@@ -26,7 +35,12 @@ public class GetRequest implements RequestHandler {
         return null;
     }
 
-    //根据GET报文中的内容获取参数
+    /**
+     * description:根据GET报文中的GET参数解析成键值对
+     *
+     * @Param:get请求的路径
+     * @return:get路径中所有参数的键值对
+     */
     private Map<String,String> getParams(String uri)
     {
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(uri, CharsetUtil.UTF_8);//根据key-value解码uri
@@ -42,7 +56,12 @@ public class GetRequest implements RequestHandler {
         return params;
     }
 
-    //获取json形式的报文
+    /**
+     * description: 获取json形式的报文
+     *
+     * @Param:get请求的路径
+     * @return:解析出的json报文字符串
+     */
     private String getJsonParams(String uri)
     {
         QueryStringDecoder queryStringDecoder = new QueryStringDecoder(uri, CharsetUtil.UTF_8);
@@ -55,7 +74,12 @@ public class GetRequest implements RequestHandler {
         return result;
     }
 
-    //通过header来获取get传输的报文类型
+    /**
+     * description: 通过header来获取get传输的报文类型
+     *
+     * @Param:http报文头字段
+     * @return:该http报文Content字段的类型
+     */
     private String getContentType(HttpHeaders headers)
     {
         String type = headers.get("Content-Type");//获取http头部的type信息

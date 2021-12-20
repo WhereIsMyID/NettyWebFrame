@@ -10,8 +10,10 @@ import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * description:静态资源操作工具
+ */
 @Slf4j
-//静态资源操作工具
 public class ResourcesTools {
     //静态文件根目录路径
     public static String location = ResourcesTools.class.getClass().getResource("/static").getPath();
@@ -23,14 +25,25 @@ public class ResourcesTools {
     //私有化构造方法
     private ResourcesTools(){}
 
-    //返回一个404页面
-    public static ResponsePackage notFound(FullHttpRequest msg,String url) throws IOException {
-        String path = location + url;
+    /**
+     * description:返回一个404页面
+     *
+     * @Param:http请求报文对象
+     * @return:封装404页面文件的应答报文包
+     */
+    public static ResponsePackage notFound(FullHttpRequest msg) throws IOException {
+        String path = location + NOT_FOUND;
         File file = new File(path);
         return handleFile(msg,file,HttpResponseStatus.NOT_FOUND);
     }
 
-    //请求静态资源
+    /**
+     * description:请求静态资源
+     *
+     * @Param1:http请求报文对象
+     * @Param2:资源路径
+     * @return:封装页面文件的应答报文包
+     */
     public static ResponsePackage handleResource(FullHttpRequest msg, String resource)
     {
         String path = location + resource;
@@ -39,7 +52,7 @@ public class ResourcesTools {
             File file = new File(path);
             if(!file.exists() || file.isDirectory())//如果文件不存在或者是个目录
             {
-                return notFound(msg,NOT_FOUND);//返回一个404页面
+                return notFound(msg);//返回一个404页面
             }
             return handleFile(msg,file,HttpResponseStatus.OK);
         }catch (IOException e)
@@ -48,7 +61,14 @@ public class ResourcesTools {
         }
     }
 
-    //构建报文
+    /**
+     * description:根据文件的字节流，构建应答报文包
+     *
+     * @Param1:http请求报文对象
+     * @Param2:打开的文件对象
+     * @Param3:应答报文的结果状态码
+     * @return:封装页面文件的应答报文包
+     */
     private static ResponsePackage handleFile(FullHttpRequest msg,File file,HttpResponseStatus status) throws IOException{
         List<Object> responses = new ArrayList<>();//应答报文列表
 
@@ -65,7 +85,13 @@ public class ResourcesTools {
         return responsePackage;
     }
 
-    //获取文件资源的类型
+
+    /**
+     * description:获取文件资源的类型
+     *
+     * @Param:打开的文件对象
+     * @return:该文件的类型(http头字段)
+     */
     private static HttpHeaders getContentTypeHeader(File file)
     {
         MimetypesFileTypeMap map = new MimetypesFileTypeMap();

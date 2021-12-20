@@ -13,33 +13,56 @@ import io.netty.handler.logging.LogLevel;
 import io.netty.handler.logging.LoggingHandler;
 import lombok.extern.slf4j.Slf4j;
 
+/**
+ * description:启动类，调用run方法开启服务器
+ */
 @Slf4j
 public class StartBoot {
     private static int port = 8080;//端口
     public static boolean logInfo = true;//是否开启报文日志
     public static boolean websocket = false;//websocket开关
 
-    //设置静态资源路径
+    /**
+     * description:设置静态资源路径
+     *
+     * @Param:本地静态资源的目录路径
+     * @return:当前对象，用于链式编程
+     */
     public StartBoot setStaticPath(String path)
     {
         ResourcesTools.location = path;
         return this;
     }
 
-    //设置是否开启websocket机制
+    /**
+     * description:设置是否开启websocket机制,默认为关闭
+     *
+     * @Param:true为开启websocket,false为关闭
+     * @return:当前对象，用于链式编程
+     */
     public StartBoot webSocket(boolean b)
     {
         websocket = b;
         return this;
     }
 
-    //设置是否打开日志输出
+    /**
+     * description:设置是否打开报文日志输出，默认为开启
+     *
+     * @Param:true为开启报文日志,false为关闭
+     * @return:当前对象，用于链式编程
+     */
     public StartBoot openLog(boolean b)
     {
         logInfo = b;
         return this;
     }
 
+    /**
+     * description:设置一个端口号，监听该端口启动服务器
+     *
+     * @Param:端口号
+     */
     public void run(int p)
     {
         StartBoot.port = p;

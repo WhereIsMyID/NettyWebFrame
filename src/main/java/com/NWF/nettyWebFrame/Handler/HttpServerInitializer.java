@@ -7,7 +7,9 @@ import io.netty.handler.codec.http.HttpObjectAggregator;
 import io.netty.handler.codec.http.HttpServerCodec;
 import io.netty.handler.stream.ChunkedWriteHandler;
 
-
+/**
+ * description:服务端Handler初始化类，用于初始化整个workerGroup中的EventLoop连接处理流水线
+ */
 public class HttpServerInitializer extends ChannelInitializer<SocketChannel> {
     protected void initChannel(SocketChannel ch){
         //向管道加入处理器

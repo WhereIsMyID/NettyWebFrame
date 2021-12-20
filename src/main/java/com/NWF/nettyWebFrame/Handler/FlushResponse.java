@@ -1,7 +1,5 @@
 package com.NWF.nettyWebFrame.Handler;
 
-import com.NWF.nettyWebFrame.tools.ResourcesTools;
-import com.NWF.nettyWebFrame.tools.ResponseTools;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
@@ -11,11 +9,20 @@ import io.netty.handler.codec.http.HttpResponse;
 import io.netty.handler.codec.http.HttpUtil;
 import lombok.extern.slf4j.Slf4j;
 
-import java.io.IOException;
 
-//将ResponsePackage报文包拆分输出
+/**
+ * description:将ResponsePackage报文包拆分输出
+ */
 @Slf4j
 public class FlushResponse {
+
+    /**
+     * description:处理ResponsePackage对象，将其中所有的应答报文信息写入channel，并根据报文的处理类型构造报文，执行最后的输出。
+     *
+     * @Param1:业务处理过后的应答报文包
+     * @Param2:http请求报文
+     * @Param3:当前handler连接的channel上下文
+     */
     public static void set(ResponsePackage responses, FullHttpRequest request,ChannelHandlerContext ctx){
         if(responses == null)
         {

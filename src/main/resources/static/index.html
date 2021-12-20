@@ -12,6 +12,7 @@
     <input type="text"  style="width: 300px;" name="mes" placeholder="message...">
     <button id="get" style="margin-left: 35px; ">GET</button>
     <button id="post" style="margin-left: 35px; ">POST</button>
+    <button id="async" style="margin-left: 35px; ">ASYNC</button>
     <div id="response">None</div>
 </div>
 </body>
@@ -60,6 +61,50 @@
                 }
             })
         })
+    })
+
+    $(document).ready(() => {
+        $('#async').bind('click',function () {
+            let mes = $('input[name="mes"]').val();
+
+            //发送一次NIO异步post
+            $.ajax({
+                url: '/async',
+                type: 'post',
+                contentType: 'application/json',
+                data: JSON.stringify({mes}),
+                dataType: "json",
+                success: function (response)
+                {
+                    console.log("success")
+                    console.log(response)
+                    $('#response').html(response.mes)
+                },
+                error:function (e) {
+                    console.log("error")
+                    console.log(e)
+                }
+            });
+        });
+
+        //发送一次NIO同步post
+        $.ajax({
+            url: '/get',
+            type: 'post',
+            contentType: 'application/json',
+            data: JSON.stringify({mes}),
+            dataType: "json",
+            success: function (response)
+            {
+                console.log("success")
+                console.log(response)
+                $('#response').html(response.mes)
+            },
+            error:function (e) {
+                console.log("error")
+                console.log(e)
+            }
+        });
     })
 </script>
 </html>
